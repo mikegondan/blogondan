@@ -1,0 +1,15 @@
+<article class="post-card">
+  <div class="post-image" [style.background-image]="'url(' + post.image + ')'"></div>
+  <div class="post-content">
+    <div class="post-meta">
+      <span class="category">{{ post.category }}</span>
+      <span class="dot">&bull;</span>
+      <time>{{ post.date }}</time>
+      <span class="dot">&bull;</span>
+      <span>{{ post.readTime }} read</span>
+    </div>
+    <h3 class="post-title">{{ post.title }}</h3>
+    <p class="post-excerpt">{{ post.excerpt }}</p>
+    <a href="#" class="read-more">Read article &rarr;</a>
+  </div>
+</article>

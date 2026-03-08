@@ -1,3 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --angular-red: oklch(61.42% 0.238 15.34);
+  --angular-pink: oklch(69.02% 0.277 332.77);
+  --angular-violet: oklch(53.18% 0.28 296.97);
+  --text-main: oklch(19.37% 0.006 300.98);
+  --text-muted: oklch(36.98% 0.014 302.71);
+  --bg-color: #FAFAFA;
+  --card-bg: #FFFFFF;
+  --border-color: #EAEAEA;
+  --gradient-brand: linear-gradient(135deg, var(--angular-red) 0%, var(--angular-pink) 50%, var(--angular-violet) 100%);
+}
 
-@import 'tailwindcss';
+body {
+  margin: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s ease;
+}

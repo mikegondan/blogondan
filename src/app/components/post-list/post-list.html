@@ -1,0 +1,11 @@
+<section class="post-list-section">
+  <div class="section-header">
+    <h2>Latest Articles</h2>
+    <p>Thoughts, tutorials, and insights into modern web development.</p>
+  </div>
+  <div class="post-grid">
+    @for (post of posts; track post.title) {
+      <app-post-card [post]="post"></app-post-card>
+    }
+  </div>
+</section>
