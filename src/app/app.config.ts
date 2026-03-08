@@ -2,9 +2,12 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp, getApp } from '@angular/fire/app';
 import { provideFirestore } from '@angular/fire/firestore';
 import { getFirestore } from 'firebase/firestore';
+import { provideAuth } from '@angular/fire/auth';
+import { getAuth } from 'firebase/auth';
+import { provideAppCheck, initializeAppCheck, ReCaptchaV3Provider } from '@angular/fire/app-check';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCCez7L7KkcteW03ush60-qwbbQ7zWXFjY",
@@ -21,6 +24,18 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
+    provideAuth(() => getAuth()),
+    provideAppCheck(() => {
+      if (typeof window !== 'undefined') {
+        (window as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+      }
+      
+      const provider = new ReCaptchaV3Provider('6Lf-KIQsAAAAAF3Urb0g2CWpL9Kawa8eJZ-pzGlo');
+      return initializeAppCheck(getApp(), {
+        provider,
+        isTokenAutoRefreshEnabled: true
+      });
+    })
   ]
 };

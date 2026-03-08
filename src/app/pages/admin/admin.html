@@ -1,0 +1,219 @@
+<div class="max-w-5xl mx-auto p-6 bg-white rounded-xl shadow-sm mt-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Administración del Blog</h1>
+    <button 
+      (click)="toggleForm()"
+      class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">
+      {{ showForm() ? 'Cancelar' : '+ Añadir nueva entrada' }}
+    </button>
+  </div>
+
+  <!-- Form Block -->
+  <div *ngIf="showForm()" class="mb-8 p-6 bg-gray-50 border border-gray-100 rounded-xl shadow-inner transition-all duration-300">
+    <h2 class="text-xl font-semibold mb-4 text-gray-700">{{ editingPostId() ? 'Editar Entrada' : 'Nueva Entrada' }}</h2>
+    
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Título -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Título *</label>
+          <input 
+            type="text" 
+            [(ngModel)]="newPostTitle" 
+            placeholder="Ej: Mi viaje a Japón..." 
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+        </div>
+        <!-- Categoría -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+          <input 
+            type="text" 
+            [(ngModel)]="newPostCategory" 
+            placeholder="Ej: Framework, Design, Architecture..." 
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Extracto -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Extracto (Resumen)</label>
+          <input 
+            type="text" 
+            [(ngModel)]="newPostExcerpt" 
+            placeholder="Breve resumen de la entrada..." 
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+        </div>
+        <!-- Tiempo Lectura -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Tiempo de Lectura</label>
+          <input 
+            type="text" 
+            [(ngModel)]="newPostReadTime" 
+            placeholder="Ej: 5 min" 
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">URL de la Imagen de Portada</label>
+        <input 
+          type="text" 
+          [(ngModel)]="newPostImage" 
+          placeholder="https://..." 
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Cuerpo (WYSIWYG) *</label>
+      <div class="border border-gray-300 rounded-lg bg-white overflow-hidden shadow-sm">
+        
+        <!-- Toolbar -->
+        <!-- Toolbar -->
+        <div class="bg-gray-50 border-b border-gray-200 px-3 py-2 flex flex-wrap gap-1 items-center">
+          
+          <!-- Tipografía -->
+          <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-md p-1 shadow-sm">
+            <button (click)="execCommand('formatBlock', 'H1')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 font-bold text-sm" title="Título Principal 1">H1</button>
+            <button (click)="execCommand('formatBlock', 'H2')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 font-bold text-sm" title="Título Secundario 2">H2</button>
+            <button (click)="execCommand('formatBlock', 'P')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 text-sm" title="Párrafo">P</button>
+          </div>
+
+          <!-- Estilos -->
+          <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-md p-1 shadow-sm ml-2">
+            <button (click)="execCommand('bold')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Negrita">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"></path></svg>
+            </button>
+            <button (click)="execCommand('italic')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Cursiva">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+            </button>
+            <button (click)="execCommand('underline')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Subrayado">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4v6a6 6 0 0012 0V4M4 20h16"></path></svg>
+            </button>
+            <button (click)="execCommand('strikeThrough')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Tachado">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16m-8-8v16"></path></svg>
+            </button>
+          </div>
+          
+          <!-- Bloques -->
+          <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-md p-1 shadow-sm ml-2">
+            <button (click)="execCommand('formatBlock', 'BLOCKQUOTE')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Cita">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"></path></svg>
+            </button>
+            <button (click)="execCommand('insertUnorderedList')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Lista de viñetas">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16M8 6h.01M8 12h.01M8 18h.01"></path></svg>
+            </button>
+            <button (click)="execCommand('insertOrderedList')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Lista numerada">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h13M7 16h13M3 7h1v3M3 15h1v3m0-3V8"></path></svg>
+            </button>
+            <button (click)="execCommand('insertHorizontalRule')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Línea Horizontal">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+            </button>
+          </div>
+          
+          <!-- Alineación -->
+          <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-md p-1 shadow-sm ml-2">
+            <button (click)="execCommand('justifyLeft')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Alinear a la izquierda">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h10M4 18h16"></path></svg>
+            </button>
+            <button (click)="execCommand('justifyCenter')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Centrar">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M7 12h10M4 18h16"></path></svg>
+            </button>
+            <button (click)="execCommand('justifyRight')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Alinear a la derecha">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M10 12h10M4 18h16"></path></svg>
+            </button>
+          </div>
+
+          <!-- Asistente IA -->
+          <div class="flex items-center gap-1 bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-md p-1 shadow-sm ml-auto">
+            <button (click)="openAiModal()" type="button" class="flex items-center gap-1 p-1.5 hover:bg-indigo-100 rounded text-indigo-700 focus:outline-none font-medium text-sm" title="Generar con IA">
+              <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              Auto-Completar IA
+            </button>
+          </div>
+        </div>
+
+        <!-- Editor Area -->
+        <div 
+          id="wysiwyg-editor" 
+          contenteditable="true" 
+          class="min-h-[300px] p-4 focus:outline-none prose max-w-none text-gray-800"
+          placeholder="Escribe el contenido de tu entrada aquí...">
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-3">
+      <button 
+        (click)="toggleForm()"
+        class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-5 py-2 rounded-lg font-medium transition-colors shadow-sm">
+        Cancelar
+      </button>
+      <button 
+        (click)="savePost()"
+        class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium transition-colors shadow-sm">
+        {{ editingPostId() ? 'Actualizar Entrada' : 'Guardar Entrada' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- AI Modal (Floating) -->
+  <div *ngIf="showAiModal()" class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50 drop-shadow-2xl">
+    <div class="relative bg-white rounded-2xl w-full max-w-lg p-6 shadow-2xl animate-fade-in-up">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold flex items-center gap-2 text-gray-800">
+          <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+          Asistente de Escritura IA
+        </h3>
+        <button (click)="closeAiModal()" class="text-gray-400 hover:text-gray-600 focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      
+      <p class="text-sm text-gray-600 mb-4">Escribe un contexto o idea básica sobre el párrafo que quieres añadir y la IA redactará el contenido por ti en el estilo del blog.</p>
+      
+      <textarea 
+        [(ngModel)]="aiContextPrompt" 
+        rows="4" 
+        class="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none transition-shadow text-gray-700"
+        placeholder="Ej: Escribe un párrafo de introducción sobre los beneficios de programar con Angular Standalone Components de forma amena y profesional..."></textarea>
+      
+      <div class="mt-6 flex justify-end gap-3">
+        <button (click)="closeAiModal()" class="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors">Cancelar</button>
+        <button 
+          (click)="generateWithAi()" 
+          [disabled]="isGeneratingAi()"
+          class="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white min-w-[140px] px-4 py-2 rounded-lg font-medium transition-colors shadow-md disabled:bg-indigo-400 disabled:cursor-not-allowed">
+          <span *ngIf="isGeneratingAi()" class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></span>
+          {{ isGeneratingAi() ? 'Generando...' : 'Autocompletar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Block -->
+  <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+    <table class="w-full text-left bg-white">
+      <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-semibold">
+        <tr>
+          <th class="py-3 px-6 border-b">ID</th>
+          <th class="py-3 px-6 border-b">Título</th>
+          <th class="py-3 px-6 border-b">Fecha de Creación</th>
+          <th class="py-3 px-6 border-b text-right">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm divide-y divide-gray-100">
+        <tr *ngFor="let post of posts$ | async" class="hover:bg-gray-50 transition-colors">
+          <td class="py-3 px-6 text-gray-500 font-mono">{{ post.id | slice:0:6 }}</td>
+          <td class="py-3 px-6 font-medium text-gray-800">{{ post.title }}</td>
+          <td class="py-3 px-6 text-gray-500">{{ post.createdAt | date:'shortDate' }}</td>
+          <td class="py-3 px-6 text-right">
+            <button (click)="editPost(post)" class="text-indigo-600 hover:text-indigo-900 font-medium text-sm focus:outline-none">Editar</button>
+            <span class="mx-2 text-gray-300">|</span>
+            <button (click)="deletePost(post.id)" class="text-red-600 hover:text-red-900 font-medium text-sm focus:outline-none">Eliminar</button>
+          </td>
+        </tr>
+        <!-- Handling absolute zero states directly via the array length would conflict with async pipe directly unless wrapped. We can safely skip the literal 0 state here. -->
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -4,7 +4,7 @@
     <p>Thoughts, tutorials, and insights into modern web development.</p>
   </div>
   <div class="post-grid">
-    @for (post of posts; track post.title) {
+    @for (post of posts$ | async; track post.id) {
       <app-post-card [post]="post"></app-post-card>
     }
   </div>
