@@ -1,0 +1,99 @@
+<div class="max-w-5xl mx-auto p-6 bg-white rounded-xl shadow-sm mt-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Administración del Blog</h1>
+    <button 
+      (click)="toggleForm()"
+      class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">
+      {{ showForm() ? 'Cancelar' : '+ Añadir nueva entrada' }}
+    </button>
+  </div>
+
+  <!-- Form Block -->
+  <div *ngIf="showForm()" class="mb-8 p-6 bg-gray-50 border border-gray-100 rounded-xl shadow-inner transition-all duration-300">
+    <h2 class="text-xl font-semibold mb-4 text-gray-700">Nueva Entrada</h2>
+    
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Título</label>
+      <input 
+        type="text" 
+        [(ngModel)]="newPostTitle" 
+        placeholder="Ej: Mi viaje a Japón..." 
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Cuerpo (WYSIWYG)</label>
+      <div class="border border-gray-300 rounded-lg bg-white overflow-hidden shadow-sm">
+        
+        <!-- Toolbar -->
+        <div class="bg-gray-100 border-b border-gray-300 px-3 py-2 flex gap-2 overflow-x-auto">
+          <button (click)="execCommand('bold')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700 font-bold" title="Negrita">B</button>
+          <button (click)="execCommand('italic')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700 italic" title="Cursiva">I</button>
+          <button (click)="execCommand('underline')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700 underline" title="Subrayado">U</button>
+          
+          <div class="w-px h-6 bg-gray-300 my-auto mx-1"></div>
+          
+          <button (click)="execCommand('insertUnorderedList')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700" title="Lista de viñetas">• Lista</button>
+          <button (click)="execCommand('insertOrderedList')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700" title="Lista numerada">1. Lista</button>
+          
+          <div class="w-px h-6 bg-gray-300 my-auto mx-1"></div>
+          
+          <button (click)="execCommand('justifyLeft')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700 text-left" title="Alinear a la izquierda">Izqui</button>
+          <button (click)="execCommand('justifyCenter')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700 text-center" title="Centrar">Centro</button>
+        </div>
+
+        <!-- Editor Area -->
+        <div 
+          id="wysiwyg-editor" 
+          contenteditable="true" 
+          class="min-h-[300px] p-4 focus:outline-none prose max-w-none text-gray-800"
+          placeholder="Escribe el contenido de tu entrada aquí...">
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-3">
+      <button 
+        (click)="toggleForm()"
+        class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-5 py-2 rounded-lg font-medium transition-colors shadow-sm">
+        Cancelar
+      </button>
+      <button 
+        (click)="savePost()"
+        class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium transition-colors shadow-sm">
+        Guardar Entrada
+      </button>
+    </div>
+  </div>
+
+  <!-- Table Block -->
+  <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+    <table class="w-full text-left bg-white">
+      <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-semibold">
+        <tr>
+          <th class="py-3 px-6 border-b">ID</th>
+          <th class="py-3 px-6 border-b">Título</th>
+          <th class="py-3 px-6 border-b">Fecha de Creación</th>
+          <th class="py-3 px-6 border-b text-right">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm divide-y divide-gray-100">
+        <tr *ngFor="let post of posts()" class="hover:bg-gray-50 transition-colors">
+          <td class="py-3 px-6 text-gray-500 font-mono">{{ post.id | slice:0:6 }}</td>
+          <td class="py-3 px-6 font-medium text-gray-800">{{ post.title }}</td>
+          <td class="py-3 px-6 text-gray-500">{{ post.createdAt | date:'shortDate' }}</td>
+          <td class="py-3 px-6 text-right">
+            <button class="text-indigo-600 hover:text-indigo-900 font-medium text-sm focus:outline-none">Editar</button>
+            <span class="mx-2 text-gray-300">|</span>
+            <button class="text-red-600 hover:text-red-900 font-medium text-sm focus:outline-none">Eliminar</button>
+          </td>
+        </tr>
+        <tr *ngIf="posts().length === 0">
+          <td colspan="4" class="py-8 text-center text-gray-500">
+            No hay entradas todavía. ¡Crea una nueva!
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

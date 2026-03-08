@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
 :root {
   --angular-red: oklch(61.42% 0.238 15.34);
   --angular-pink: oklch(69.02% 0.277 332.77);
