@@ -1,7 +1,9 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FirebaseApp } from '@angular/fire/app';
 import { Firestore, collection, collectionData, addDoc, updateDoc, deleteDoc, doc, orderBy, query } from '@angular/fire/firestore';
+import { getAI, getGenerativeModel } from 'firebase/ai';
 import { Observable } from 'rxjs';
 import { BlogPost } from '../../models/blog-post.model';
 
@@ -14,6 +16,7 @@ import { BlogPost } from '../../models/blog-post.model';
 })
 export class AdminComponent {
   private firestore = inject(Firestore);
+  private firebaseApp = inject(FirebaseApp);
   
   posts$: Observable<BlogPost[]>;
   showForm = signal(false);
@@ -26,10 +29,57 @@ export class AdminComponent {
   newPostImage = signal('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');
   newPostExcerpt = signal('');
 
+  // AI Modal Signals
+  showAiModal = signal(false);
+  isGeneratingAi = signal(false);
+  aiContextPrompt = signal('');
+
   constructor() {
     const postsCollection = collection(this.firestore, 'posts');
     const q = query(postsCollection, orderBy('createdAt', 'desc'));
     this.posts$ = collectionData(q, { idField: 'id' }) as Observable<BlogPost[]>;
+  }
+
+  // --- AI Modal Helpers ---
+  openAiModal() {
+    this.aiContextPrompt.set('');
+    this.showAiModal.set(true);
+  }
+
+  closeAiModal() {
+    this.showAiModal.set(false);
+    this.isGeneratingAi.set(false);
+  }
+
+  async generateWithAi() {
+    if (!this.aiContextPrompt().trim()) return;
+    
+    this.isGeneratingAi.set(true);
+    
+    try {
+      const ai = getAI(this.firebaseApp);
+      const model = getGenerativeModel(ai, { model: 'gemini-3-flash-preview' });
+      
+      const prompt = `Actúa como un experto escritor de artículos para un blog de tecnología y desarrollo de software.
+Escribe un fragmento de contenido detallado y profesional usando etiquetas HTML simples (p, strong, ul, li) basado en el siguiente contexto. No devuelvas markdown, solo el código HTML resultante que se pueda inyectar en un editor WYSIWYG.
+
+Contexto del autor: ${this.aiContextPrompt()}`;
+
+      const result = await model.generateContent(prompt);
+      const htmlResponse = result.response.text();
+      
+      const editor = document.getElementById('wysiwyg-editor');
+      if (editor) {
+        // Append gracefully instead of replacing completely
+        editor.innerHTML = editor.innerHTML + '<br/>' + htmlResponse;
+      }
+      
+      this.closeAiModal();
+    } catch (error) {
+      console.error("AI Generation Error: ", error);
+      alert('Hubo un error al generar el contenido con IA. Verifica que Vertex AI esté habilitado en Firebase y las reglas configuradas.');
+      this.isGeneratingAi.set(false);
+    }
   }
 
   toggleForm() {
