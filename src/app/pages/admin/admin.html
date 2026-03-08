@@ -12,17 +12,59 @@
   <div *ngIf="showForm()" class="mb-8 p-6 bg-gray-50 border border-gray-100 rounded-xl shadow-inner transition-all duration-300">
     <h2 class="text-xl font-semibold mb-4 text-gray-700">Nueva Entrada</h2>
     
-    <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700 mb-1">Título</label>
-      <input 
-        type="text" 
-        [(ngModel)]="newPostTitle" 
-        placeholder="Ej: Mi viaje a Japón..." 
-        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-    </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Título -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Título *</label>
+          <input 
+            type="text" 
+            [(ngModel)]="newPostTitle" 
+            placeholder="Ej: Mi viaje a Japón..." 
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+        </div>
+        <!-- Categoría -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+          <input 
+            type="text" 
+            [(ngModel)]="newPostCategory" 
+            placeholder="Ej: Framework, Design, Architecture..." 
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+        </div>
+      </div>
 
-    <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700 mb-1">Cuerpo (WYSIWYG)</label>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Extracto -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Extracto (Resumen)</label>
+          <input 
+            type="text" 
+            [(ngModel)]="newPostExcerpt" 
+            placeholder="Breve resumen de la entrada..." 
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+        </div>
+        <!-- Tiempo Lectura -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Tiempo de Lectura</label>
+          <input 
+            type="text" 
+            [(ngModel)]="newPostReadTime" 
+            placeholder="Ej: 5 min" 
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">URL de la Imagen de Portada</label>
+        <input 
+          type="text" 
+          [(ngModel)]="newPostImage" 
+          placeholder="https://..." 
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Cuerpo (WYSIWYG) *</label>
       <div class="border border-gray-300 rounded-lg bg-white overflow-hidden shadow-sm">
         
         <!-- Toolbar -->
@@ -78,21 +120,17 @@
         </tr>
       </thead>
       <tbody class="text-sm divide-y divide-gray-100">
-        <tr *ngFor="let post of posts()" class="hover:bg-gray-50 transition-colors">
+        <tr *ngFor="let post of posts$ | async" class="hover:bg-gray-50 transition-colors">
           <td class="py-3 px-6 text-gray-500 font-mono">{{ post.id | slice:0:6 }}</td>
           <td class="py-3 px-6 font-medium text-gray-800">{{ post.title }}</td>
           <td class="py-3 px-6 text-gray-500">{{ post.createdAt | date:'shortDate' }}</td>
           <td class="py-3 px-6 text-right">
             <button class="text-indigo-600 hover:text-indigo-900 font-medium text-sm focus:outline-none">Editar</button>
             <span class="mx-2 text-gray-300">|</span>
-            <button class="text-red-600 hover:text-red-900 font-medium text-sm focus:outline-none">Eliminar</button>
+            <button (click)="deletePost(post.id)" class="text-red-600 hover:text-red-900 font-medium text-sm focus:outline-none">Eliminar</button>
           </td>
         </tr>
-        <tr *ngIf="posts().length === 0">
-          <td colspan="4" class="py-8 text-center text-gray-500">
-            No hay entradas todavía. ¡Crea una nueva!
-          </td>
-        </tr>
+        <!-- Handling absolute zero states directly via the array length would conflict with async pipe directly unless wrapped. We can safely skip the literal 0 state here. -->
       </tbody>
     </table>
   </div>

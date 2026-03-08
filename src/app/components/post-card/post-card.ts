@@ -1,17 +1,11 @@
 import { Component, Input } from '@angular/core';
-
-export interface BlogPost {
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  category: string;
-  image: string;
-}
+import { CommonModule } from '@angular/common';
+import { BlogPost } from '../../models/blog-post.model';
 
 @Component({
   selector: 'app-post-card',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './post-card.html',
   styleUrl: './post-card.css'
 })
