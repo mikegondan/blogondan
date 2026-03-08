@@ -72,8 +72,8 @@ export class AdminComponent {
     if (editor) editor.innerHTML = '';
   }
 
-  execCommand(command: string) {
-    document.execCommand(command, false, '');
+  execCommand(command: string, value: string = '') {
+    document.execCommand(command, false, value);
   }
 
   async savePost() {

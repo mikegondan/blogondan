@@ -12,11 +12,15 @@ export const routes: Routes = [
       {
         path: 'post/:id',
         loadComponent: () => import('./pages/post-detail/post-detail').then(m => m.PostDetailComponent)
+      },
+      {
+        path: 'admin',
+        loadComponent: () => import('./pages/admin/admin').then(m => m.AdminComponent)
+      },
+      {
+        path: 'about',
+        loadComponent: () => import('./pages/about/about').then(m => m.AboutComponent)
       }
     ]
-  },
-  {
-    path: 'admin',
-    loadComponent: () => import('./pages/admin/admin').then(m => m.AdminComponent)
   }
 ];

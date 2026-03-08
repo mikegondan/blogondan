@@ -68,20 +68,60 @@
       <div class="border border-gray-300 rounded-lg bg-white overflow-hidden shadow-sm">
         
         <!-- Toolbar -->
-        <div class="bg-gray-100 border-b border-gray-300 px-3 py-2 flex gap-2 overflow-x-auto">
-          <button (click)="execCommand('bold')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700 font-bold" title="Negrita">B</button>
-          <button (click)="execCommand('italic')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700 italic" title="Cursiva">I</button>
-          <button (click)="execCommand('underline')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700 underline" title="Subrayado">U</button>
+        <!-- Toolbar -->
+        <div class="bg-gray-50 border-b border-gray-200 px-3 py-2 flex flex-wrap gap-1 items-center">
           
-          <div class="w-px h-6 bg-gray-300 my-auto mx-1"></div>
+          <!-- Tipografía -->
+          <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-md p-1 shadow-sm">
+            <button (click)="execCommand('formatBlock', 'H1')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 font-bold text-sm" title="Título Principal 1">H1</button>
+            <button (click)="execCommand('formatBlock', 'H2')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 font-bold text-sm" title="Título Secundario 2">H2</button>
+            <button (click)="execCommand('formatBlock', 'P')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 text-sm" title="Párrafo">P</button>
+          </div>
+
+          <!-- Estilos -->
+          <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-md p-1 shadow-sm ml-2">
+            <button (click)="execCommand('bold')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Negrita">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"></path></svg>
+            </button>
+            <button (click)="execCommand('italic')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Cursiva">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+            </button>
+            <button (click)="execCommand('underline')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Subrayado">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4v6a6 6 0 0012 0V4M4 20h16"></path></svg>
+            </button>
+            <button (click)="execCommand('strikeThrough')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Tachado">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16m-8-8v16"></path></svg>
+            </button>
+          </div>
           
-          <button (click)="execCommand('insertUnorderedList')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700" title="Lista de viñetas">• Lista</button>
-          <button (click)="execCommand('insertOrderedList')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700" title="Lista numerada">1. Lista</button>
+          <!-- Bloques -->
+          <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-md p-1 shadow-sm ml-2">
+            <button (click)="execCommand('formatBlock', 'BLOCKQUOTE')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Cita">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"></path></svg>
+            </button>
+            <button (click)="execCommand('insertUnorderedList')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Lista de viñetas">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16M8 6h.01M8 12h.01M8 18h.01"></path></svg>
+            </button>
+            <button (click)="execCommand('insertOrderedList')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Lista numerada">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h13M7 16h13M3 7h1v3M3 15h1v3m0-3V8"></path></svg>
+            </button>
+            <button (click)="execCommand('insertHorizontalRule')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Línea Horizontal">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+            </button>
+          </div>
           
-          <div class="w-px h-6 bg-gray-300 my-auto mx-1"></div>
-          
-          <button (click)="execCommand('justifyLeft')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700 text-left" title="Alinear a la izquierda">Izqui</button>
-          <button (click)="execCommand('justifyCenter')" type="button" class="p-2 hover:bg-gray-200 rounded text-gray-700 text-center" title="Centrar">Centro</button>
+          <!-- Alineación -->
+          <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-md p-1 shadow-sm ml-2">
+            <button (click)="execCommand('justifyLeft')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Alinear a la izquierda">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h10M4 18h16"></path></svg>
+            </button>
+            <button (click)="execCommand('justifyCenter')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Centrar">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M7 12h10M4 18h16"></path></svg>
+            </button>
+            <button (click)="execCommand('justifyRight')" type="button" class="p-1.5 hover:bg-gray-100 rounded text-gray-700 focus:outline-none" title="Alinear a la derecha">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M10 12h10M4 18h16"></path></svg>
+            </button>
+          </div>
         </div>
 
         <!-- Editor Area -->
