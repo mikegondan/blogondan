@@ -10,6 +10,6 @@
     </div>
     <h3 class="post-title">{{ post.title }}</h3>
     <p class="post-excerpt">{{ post.excerpt }}</p>
-    <a href="#" class="read-more">Read article &rarr;</a>
+    <a [routerLink]="['/post', post.id]" class="read-more">Read article &rarr;</a>
   </div>
 </article>
