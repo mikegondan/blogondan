@@ -19,7 +19,6 @@ export class PostList {
   constructor() {
     const postsCollection = collection(this.firestore, 'posts');
     const q = query(postsCollection, orderBy('createdAt', 'desc'));
-    // collectionData automatically handles the subscription and unsubscription for the view
     this.posts$ = collectionData(q, { idField: 'id' }) as Observable<BlogPost[]>;
   }
 }

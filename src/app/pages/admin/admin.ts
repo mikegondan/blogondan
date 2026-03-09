@@ -22,14 +22,12 @@ export class AdminComponent {
   showForm = signal(false);
   editingPostId = signal<string | null>(null);
 
-  // Form signals
   newPostTitle = signal('');
   newPostCategory = signal('Framework');
   newPostReadTime = signal('5 min');
   newPostImage = signal('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');
   newPostExcerpt = signal('');
 
-  // AI Modal Signals
   showAiModal = signal(false);
   isGeneratingAi = signal(false);
   aiContextPrompt = signal('');
@@ -40,7 +38,6 @@ export class AdminComponent {
     this.posts$ = collectionData(q, { idField: 'id' }) as Observable<BlogPost[]>;
   }
 
-  // --- AI Modal Helpers ---
   openAiModal() {
     this.aiContextPrompt.set('');
     this.showAiModal.set(true);
@@ -70,7 +67,6 @@ Contexto del autor: ${this.aiContextPrompt()}`;
       
       const editor = document.getElementById('wysiwyg-editor');
       if (editor) {
-        // Append gracefully instead of replacing completely
         editor.innerHTML = editor.innerHTML + '<br/>' + htmlResponse;
       }
       
@@ -86,7 +82,6 @@ Contexto del autor: ${this.aiContextPrompt()}`;
     const isNowShown = !this.showForm();
     this.showForm.set(isNowShown);
     
-    // If hiding the form manually via Cancel, reset fields
     if (!isNowShown) {
       this.resetForm();
     }
@@ -102,7 +97,6 @@ Contexto del autor: ${this.aiContextPrompt()}`;
     
     this.showForm.set(true);
     
-    // Needs a slight delay for the *ngIf DOM element to be created before we set innerHTML
     setTimeout(() => {
       const editor = document.getElementById('wysiwyg-editor');
       if (editor) {
@@ -140,7 +134,6 @@ Contexto del autor: ${this.aiContextPrompt()}`;
 
     try {
       if (this.editingPostId()) {
-        // Update existing document
         const postDocRef = doc(this.firestore, `posts/${this.editingPostId()}`);
         await updateDoc(postDocRef, {
           title: this.newPostTitle(),
@@ -149,10 +142,8 @@ Contexto del autor: ${this.aiContextPrompt()}`;
           category: this.newPostCategory(),
           readTime: this.newPostReadTime(),
           image: this.newPostImage()
-          // Note: createdAt is unchanged on purpose for edit
         });
       } else {
-        // Create new document
         const postsCollection = collection(this.firestore, 'posts');
         await addDoc(postsCollection, {
           title: this.newPostTitle(),
