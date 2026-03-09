@@ -27,8 +27,9 @@ export const appConfig: ApplicationConfig = {
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
     provideAppCheck(() => {
-      if (typeof window !== 'undefined') {
-        (window as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+      const isLocalhost = window.location.hostname === 'localhost';
+      if (isLocalhost) {
+        (window as any).FIREBASE_APPCHECK_DEBUG_TOKEN = 'ca335793-c8fe-4178-a1d4-ac7ef49577e6';
       }
       
       const provider = new ReCaptchaV3Provider('6Lf-KIQsAAAAAF3Urb0g2CWpL9Kawa8eJZ-pzGlo');
