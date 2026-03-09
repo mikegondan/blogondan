@@ -8,6 +8,7 @@ import { getFirestore } from 'firebase/firestore';
 import { provideAuth } from '@angular/fire/auth';
 import { getAuth } from 'firebase/auth';
 import { provideAppCheck, initializeAppCheck, ReCaptchaV3Provider } from '@angular/fire/app-check';
+import { provideAnalytics, getAnalytics } from '@angular/fire/analytics';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCCez7L7KkcteW03ush60-qwbbQ7zWXFjY",
@@ -26,6 +27,7 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
+    provideAnalytics(() => getAnalytics()),
     provideAppCheck(() => {
       const isLocalhost = window.location.hostname === 'localhost';
       if (isLocalhost) {

@@ -13,7 +13,6 @@ import { Auth, GoogleAuthProvider, signInWithPopup, signOut, authState, User } f
 export class Header {
   private auth = inject(Auth);
 
-  // Observable and Signal for currently authenticated user
   user$ = authState(this.auth);
   isDropdownOpen = signal(false);
 
